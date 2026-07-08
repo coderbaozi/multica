@@ -22,6 +22,7 @@ import { EmptyState } from "./chat-empty-state";
 import { NewChatButton } from "./new-chat-button";
 import { OfflineBanner } from "./offline-banner";
 import { NoAgentBanner } from "./no-agent-banner";
+import { ArchivedAgentBanner } from "./archived-agent-banner";
 import { useChatController } from "./use-chat-controller";
 import { useChatContextItems } from "./use-chat-context-items";
 
@@ -147,6 +148,8 @@ export function ChatWindow() {
 
       {c.noAgent ? (
         <NoAgentBanner />
+      ) : c.isAgentArchived ? (
+        <ArchivedAgentBanner agentName={c.activeAgent?.name} />
       ) : (
         <OfflineBanner agentName={c.activeAgent?.name} availability={c.availability} />
       )}
@@ -158,8 +161,9 @@ export function ChatWindow() {
         onUploadFile={c.handleUploadFile}
         onStop={c.handleStop}
         isRunning={!!c.pendingTaskId}
-        disabled={c.isSessionArchived}
+        disabled={c.isSessionArchived || c.isAgentArchived}
         noAgent={c.noAgent}
+        agentArchived={c.isAgentArchived}
         agentName={c.activeAgent?.name}
         contextItems={contextItems}
       />
